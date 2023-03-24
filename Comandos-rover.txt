@@ -1,13 +1,33 @@
+************************* RUN RC_CONTROLLER  *************************************************
+
+
+-Turn on the Pixhawk driver 
+
+$ sudo chmod 666 /dev/ttyTHS0
+$ roslaunch mavros px4.launch fcu_url:=/dev/ttyTHS0:921600
+
+To see the state: $ rostopic echo /mavros/state 
+
+-Open a new terminal
+
+$ rostopic pub -r 10 /mavros/rc/override mavros_msgs/OverrideRCIn "[1565, 1500, 1500, 2000, 1000, 1000, 1000, 5000]"
+--hold the script--
+--DONT TURN ON THE MOTORS YET--
+
+-To run the script
+$python rc_controller.py 
+
+-Activate the driver of the vehicle
+TURN ON THE MOTORS (4 mode, see the traxxas manual)
+
+
+
+*********************** USEFUL COMMANDS ************************************
+
 export ROS_MASTER_URI=http://172.17.0.1:11311
 export ROS_HOSTNAME=172.17.0.1
 source devel/setup.bash
 
-
-*
-**
-****************
-**********************
-*********************** COMANDOS RC FINALES ************************************
 
 Stearling-Left
 
@@ -53,7 +73,7 @@ rostopic pub -r 10 /mavros/setpoint_raw/attitude mavros_msgs/AttitudeTarget -- '
 
 
 
-                    ************* STEPS  *******************
+                    ************* STEPS TO SEND TERMINAL COMMANDS *******************
 
 sudo chmod 666 /dev/ttyTHS0
 roslaunch mavros px4.launch fcu_url:=/dev/ttyTHS0:921600
@@ -82,25 +102,5 @@ rostopic pub /mavros/setpoint_raw/local mavros_msgs/PositionTarget -r 10  '[0,0,
 
 rostopic pub -r 10 /mavros/rc/override mavros_msgs/OverrideRCIn '[1150, 1450, 0, 0, 5000, 0, 0, 0]'
 
-************************* Conectarse al Rover *************************************************
 
-
-prender controlador PX4
-sudo chmod 666 /dev/ttyTHS0
-roslaunch mavros px4.launch fcu_url:=/dev/ttyTHS0:921600
-
-rostopic echo /mavros/state
-
-en otra terminal poner priumero:
-
-rostopic pub -r 10 /mavros/rc/override mavros_msgs/OverrideRCIn "[1565, 1500, 1500, 2000, 1000, 1000, 1000, 5000]"
---mantener el rostopic pub--
---no prender motores--
-
-correr el script
-cd rover/src/scripts_py/
-python rc_controller.py 
-
-armar el vehiculo
---prender los motores--
  
